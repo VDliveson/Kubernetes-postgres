@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gorm-test-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gorm-test
+  template:
+    metadata:
+      labels:
+        app: gorm-test
+    spec:
+      containers:
+      - name: gorm-test
+        image: vd1234/gorm-test # Use the Docker image you built or pushed
+        imagePullPolicy: Always
+        command: ["./main"] # Command to run your application
+        resources: # Define resource requests and limits here
+          limits:
+            cpu: "100m" # Limit CPU to 100 milliCPU
+            memory: "128Mi" # Limit memory to 128 MiB
+          requests:
+            cpu: "50m" # Request at least 50 milliCPU
+            memory: "64Mi" # Request at least 64 MiB

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: 'postgres:latest'
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - secretRef:
+            name: postgres-secret
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgresdata
+        - mountPath: /etc/postgresql/postgresql.conf
+          name: postgres-config-volume
+          subPath: postgresql.conf
+          # resources:
+          #   limits:
+          #     cpu: "1"
+          #     memory: "1Gi"
+          #   requests:
+          #     cpu: "500m"
+          #     memory: "512Mi"
+      volumes:
+      - name: postgresdata
+        persistentVolumeClaim:
+          claimName: postgres-volume-claim
+      - name: postgres-config-volume
+        configMap:
+          name: postgres-config
+          items:
+          - key: postgresql.conf
+            path: postgresql.conf
+
