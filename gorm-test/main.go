@@ -27,16 +27,15 @@ func main() {
 	fmt.Println(host, port, dsn)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println(err)
-		// return
-	} else {
-		fmt.Println("db:", db)
+		log.Fatal(err)
 	}
+
+	fmt.Println("db:", db)
 
 	err = db.AutoMigrate(&models.Book{})
 	if err != nil {
-		fmt.Println(err)
-		// return
+		log.Fatal(err)
+		return
 	} else {
 		fmt.Println("Migrated successfully")
 	}

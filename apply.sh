@@ -23,6 +23,7 @@ kubectl apply -f secret/postgres-secret.yaml --namespace=$NAMESPACE
 kubectl apply -f volume/psql-pv.yaml --namespace=$NAMESPACE
 kubectl apply -f volume-claim/psql-claim.yaml --namespace=$NAMESPACE
 kubectl apply -f deployment/ps-deployment.yaml --namespace=$NAMESPACE
+kubectl apply -f deployment/gorm-test-job.yaml --namespace=$NAMESPACE
 kubectl apply -f service/ps-service.yaml --namespace=$NAMESPACE
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
